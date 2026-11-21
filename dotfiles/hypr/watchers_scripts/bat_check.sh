@@ -10,51 +10,44 @@ wasLow=0
 
 sleep 5
 
-while :
-do
+while :; do
 
-# Getting battery percentage
-cap_float=$(upower -i $(upower -e | grep BAT) | grep "percentage:" | tr -d "percentage:" | tr -d " " | tr -d "%")
-cap=${cap_float%.*}
+  # Getting battery percentage
+  cap_float=$(upower -i $(upower -e | grep BAT) | grep "percentage:" | tr -d "percentage:" | tr -d " " | tr -d "%")
+  cap=${cap_float%.*}
 
-unformated_state=$(upower -i $(upower -e | grep BAT) | grep "state:" | tr -d " ")
-state=${unformated_state##*'state:'}
+  state=$(upower -i $(upower -e | grep BAT) | grep "state:" | sed -n 's/.*state: //p')
 
-if [ "$state" != "charging" ]
-then
+  if [ "$state" != "charging" ]; then
 
-	# Checking percentage
-	if [ "$cap" -lt "$LOW1" ] && [ "$cap" -gt "$LOW2" ] && [ $wasLow != 1 ]
-	then
-		echo "Low battery: <$LOW1"
-		swayosd-client --custom-message "Low battery: <$LOW1"
-		
-		wasLow=1
+    # Checking percentage
+    if [ "$cap" -lt "$LOW1" ] && [ "$cap" -gt "$LOW2" ] && [ $wasLow != 1 ]; then
+      echo "Low battery: <$LOW1"
+      swayosd-client --custom-message "Low battery: <$LOW1" -d 2000
 
-	elif [ "$cap" -lt "$LOW2" ] && [ "$cap" -gt "$CRIT1" ] && [ "$wasLow" -ne 2 ]
-	then
-		echo "Low battery: <$LOW2"
-		swayosd-client --custom-message "Low battery: <$LOW2"
+      wasLow=1
 
-		wasLow=2
+    elif [ "$cap" -lt "$LOW2" ] && [ "$cap" -gt "$CRIT1" ] && [ "$wasLow" -ne 2 ]; then
+      echo "Low battery: <$LOW2"
+      swayosd-client --custom-message "Low battery: <$LOW2" -d 2000
 
-	elif [ "$cap" -lt "$CRIT1" ] && [ "$cap" -gt "$CRIT2" ] && [ "$wasLow" -ne 3 ]
-	then
-		echo "Crit battery: <$CRIT1"
-		swayosd-client --custom-message "CRITICAL BATTERY: <$CRIT1"
+      wasLow=2
 
-		wasLow=3
+    elif [ "$cap" -lt "$CRIT1" ] && [ "$cap" -gt "$CRIT2" ] && [ "$wasLow" -ne 3 ]; then
+      echo "Crit battery: <$CRIT1"
+      swayosd-client --custom-message "CRITICAL BATTERY: <$CRIT1" -d 2000
 
-	elif [ "$cap" -lt "$CRIT2" ] && [ "$wasLow" -ne 4 ]
-	then
-		echo "Crit battery: <$CRIT2"
-		swayosd-client --custom-message "CRITICAL BATTERY: <$CRIT2"
+      wasLow=3
 
-		wasLow=4
+    elif [ "$cap" -lt "$CRIT2" ] && [ "$wasLow" -ne 4 ]; then
+      echo "Crit battery: <$CRIT2"
+      swayosd-client --custom-message "CRITICAL BATTERY: <$CRIT2" -d 2000
 
-	fi
-	
-fi
+      wasLow=4
 
-sleep 1
+    fi
+
+  fi
+
+  sleep 1
 done

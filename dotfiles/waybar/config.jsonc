@@ -1,33 +1,37 @@
 {
 	"layer": "top",
     	"height": 55,
-    	"modules-left": ["cpu","custom/sep","memory"],
+    	"modules-left": ["hyprland/workspaces","tray"],
     	"modules-center": ["clock"],
-    	"modules-right": ["tray", "pulseaudio", "custom/sep","network", "custom/sep","battery","custom/battery-sep","hyprland/language"],
+    	"modules-right": ["cpu","custom/sep","memory","custom/sep","pulseaudio", "custom/sep","network", "custom/sep","battery","custom/battery-sep","hyprland/language"],
+
 
    	"custom/sep": {
 		   "format": "|"
    	},
-    	"hyprland/workspaces": {
-        	"format": "{name}",
-        	"on-click": "activate"
-    	},
-    	"clock": {
-        	"format": "{:%H:%M:%S %d.%m.%Y}",
-		"interval": 0
-    	},
-    	"pulseaudio": {
-        	"format": "{volume}% {icon}",
-        	"format-icons": ["", "", ""]
-    	},
-    	"network": {
-        	"format-wifi": "  {essid}",
-	        "format-ethernet": "󰈀",
-        	"format-disconnected": "⚠"
-	},
-    	"tray": {
-        	"spacing": 10
-    	},
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate"
+    },
+    "clock": {
+        "format": "{:%H:%M:%S %d.%m.%Y}",
+        "interval": 0.01
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-icons": ["","", ""],
+        "format-muted": "muted ",
+        "on-click": "kitty alsamixer &"
+    },
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "Not connected",
+        "on-click": "kitty nmtui &"
+    },
+    "tray": {
+        "spacing": 10
+    },
     
     "custom/battery-sep": {
       "exec": "~/.config/waybar/scripts/battery-sep.sh",
@@ -59,7 +63,7 @@
 
 	"memory": {
 		"id": "memory",
-		"format": "  {percentage}%",
+		"format": "  {percentage}% ",
 		"states": { "warning": 50, "critical": 75  },
 		"interval": 1
 	  }

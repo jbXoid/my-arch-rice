@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
 
-# User needs to know what layout they using
-keymap_unformatted=$(hyprctl devices | grep keyboard -A 6 | grep "active keymap: ")
-keymap=${keymap_unformatted##*'active keymap: '}
+keymap=$(hyprctl devices | grep "Keyboard at" -m1 -A 4 | grep "active keymap: " | sed -n 's/.*active keymap: //p')
 swayosd-client --custom-message "Keyboard: $keymap"
-
