@@ -1,9 +1,9 @@
 {
 	"layer": "top",
     	"height": 55,
-    	"modules-left": ["hyprland/workspaces","tray"],
+    	"modules-left": ["cpu","custom/sep","memory"],
     	"modules-center": ["clock"],
-    	"modules-right": ["cpu","custom/sep","memory","custom/sep","pulseaudio", "custom/sep","network", "custom/sep","battery","custom/battery-sep","hyprland/language"],
+    	"modules-right": ["tray","pulseaudio", "custom/sep","network", "custom/sep","battery","custom/battery-sep","hyprland/language"],
 
 
    	"custom/sep": {
@@ -63,7 +63,7 @@
 
 	"memory": {
 		"id": "memory",
-		"format": "  {percentage}% ",
+		"format": "  {percentage}%",
 		"states": { "warning": 50, "critical": 75  },
 		"interval": 1
 	  }
